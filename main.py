@@ -7,10 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
-
-
 driver_path = r"C:\Users\Refael\AppData\Local\BraveSoftware\Brave-Browser\Application\brave.exe"
-
 
 load_dotenv() 
 user_id = os.getenv('ID')
@@ -18,15 +15,15 @@ password = os.getenv('PASSWORD')
 company_id = os.getenv('COMPANY_ID')
 
 options = webdriver.ChromeOptions()
-
 options.add_experimental_option("detach", True)
+
+driver = webdriver.Chrome(options=options)  # Assuming you have Chrome WebDriver installed
+driver.get("https://portal.malam-payroll.com/Salprd2Root/faces/login.jspx")
 
 def login():
     """login and enter nochchut page
-    
     """
-    driver = webdriver.Chrome(options=options)  # Assuming you have Chrome WebDriver installed
-    driver.get("https://portal.malam-payroll.com/Salprd2Root/faces/login.jspx")
+    
     time.sleep(1)
     
     
@@ -38,8 +35,6 @@ def login():
     user_id_input = driver.find_element(By.ID, "useridInput::content")
     user_id_input .send_keys(user_id)
     time.sleep(1)
-    
-    
     
     #password
     password_input = driver.find_element(By.ID, "it2::content")
@@ -60,4 +55,17 @@ def login():
     time.sleep(10)
 
 
-login()
+
+def sethour():
+    timeset = driver.find_element(By.ID, "pt1:dataTable:30:clockOutTime::content")
+    timeset.send_keys("1700")
+    print("time set to 1700")
+    
+def savedata():
+    savebtn = driver.find_element(By.ID, "pt1:saveButton")
+    ActionChains(driver).click(savebtn).perform()
+    print("save the data")
+if __name__ == "__main__":
+    login()
+    sethour()
+    savedata()
